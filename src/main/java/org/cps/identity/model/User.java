@@ -22,7 +22,7 @@ import org.cps.identity.common.UserManagerUtils;
  *
  */
 @Entity
-@Table(name="PERSON")
+@Table(name="USR")
 @ManagedBean(name="user")
 public class User {
 	@Id
@@ -30,6 +30,7 @@ public class User {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
       
+	@Column(nullable = false)
     private String userName;
     private String password;
     private String email;

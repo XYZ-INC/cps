@@ -23,8 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserManagerDAOImpl implements UserManagerDAO {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserManagerDAOImpl.class);
-        
+         
     @PersistenceContext
     private EntityManager manager;
 
@@ -40,10 +39,12 @@ public class UserManagerDAOImpl implements UserManagerDAO {
 
 	public User createUser(User user) {
 		manager.persist(user);    	
-		logger.debug("Person saved successfully, Person Details="+user);
+//		logger.debug("Person saved successfully, Person Details="+user);
 		
 		Query query = manager.createQuery("Select u from User u where u.userName= :userName");
 		query.setParameter("userName", user.getUserName());
+		
+		System.out.println("user.getUserName : "+ user.getUserName());
 		
 		User usr = (User) query.getSingleResult();
 		return usr;

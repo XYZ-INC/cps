@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="GROUP")
+@Table(name="GRP")
 @ManagedBean(name="group")
 public class Group {
 	
