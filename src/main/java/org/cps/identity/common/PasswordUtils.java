@@ -71,7 +71,7 @@ public class PasswordUtils {
         .usePunctuation(true)
         .build();
      	
-		String password = passwordGenerator.generate(8); // output ex.: lrU12fmM 75iwI90o
+		String password = passwordGenerator.generate(8);
 		String salt = getSalt(8);
 		String securePassword = generateSecurePassword(password, salt);
 
