@@ -48,7 +48,7 @@ public class UserManagerDAOTest {
 
 	@Autowired
 	UserManagerUtils userManagerUtils;
-	
+
 	@Autowired
 	ApplicationDAO appDAO;
 	
