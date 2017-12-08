@@ -1,5 +1,7 @@
 package org.cps.identity.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
@@ -10,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -48,7 +52,19 @@ public class User {
 	//@Column(nullable = false)
     private Organization organization; 
 	
+	
 
+    @ManyToMany 
+    @JoinTable(name="USR_GRP", 
+          joinColumns=@JoinColumn(name="USR_ID"),
+          inverseJoinColumns=@JoinColumn(name="GRP_ID"))
+    private Collection<Group> groups;
+	
+
+    public User(){
+    	groups = new ArrayList<Group>();
+    	
+    }
 
  
 	public int getId() {
@@ -159,6 +175,20 @@ public class User {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+
+	public Collection<Group> getGroups() {
+		return groups;
+	}
+
+	public void addGroups(Group group) {
+        if (!getGroups().contains(group)) {
+        	getGroups().add(group);
+        }
+        if (!group.getUsers().contains(this)) {
+        	group.getUsers().add(this);
+        }
+
 	}
 
 	

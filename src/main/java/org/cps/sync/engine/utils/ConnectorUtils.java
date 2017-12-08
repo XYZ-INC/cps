@@ -1,4 +1,4 @@
-package org.cps.sync.engine.configurator;
+package org.cps.sync.engine.utils;
 
 import java.util.ArrayList;
 import java.util.Date;

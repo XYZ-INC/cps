@@ -1,5 +1,7 @@
-package org.cps.prov.application.model;
+package org.cps.prov.engine.model;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -12,10 +14,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.cps.identity.model.User;
 
  
 /**
@@ -31,6 +36,7 @@ public class Application {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(unique=true,nullable=false)
 	private String name;
 
 	private String description;
@@ -46,10 +52,14 @@ public class Application {
 	@JoinColumn(name="app_id")
 	private List<ApplicationParams> params;
 
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="app_id")
-	private List<ApplicationConfigParams> configParams;
+    @ManyToMany(mappedBy="applications")
+    private Collection<ProvisioningPolicy> provPolicies;
 
+	
+    private String createdBy;
+    private String updatedBy;
+    private Date createdDate;
+    private Date updatedDate;
 
 	public int getId() {
 		return id;
@@ -102,12 +112,46 @@ public class Application {
 
 	
 	
-	public List<ApplicationConfigParams> getConfigParams() {
-		return configParams;
+ 	public String getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setConfigParams(List<ApplicationConfigParams> configParams) {
-		this.configParams = configParams;
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	
+	
+	public Collection<ProvisioningPolicy> getProvPolicies() {
+		return provPolicies;
+	}
+
+	public void setProvPolicies(Collection<ProvisioningPolicy> provPolicies) {
+		this.provPolicies = provPolicies;
 	}
 
 	@Override

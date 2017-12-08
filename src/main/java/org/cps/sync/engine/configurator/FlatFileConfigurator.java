@@ -15,6 +15,7 @@ import org.cps.sync.engine.model.SyncBase;
 import org.cps.sync.engine.model.SyncEvent;
 import org.cps.sync.engine.model.SyncProfile;
 import org.cps.sync.engine.service.SyncEngineService;
+import org.cps.sync.engine.utils.ConnectorUtils;
 import org.identityconnectors.common.IOUtil;
 import org.identityconnectors.flatfile.FlatFileConfiguration;
 import org.identityconnectors.flatfile.FlatFileConnector;

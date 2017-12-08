@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "ENTITY_MATCHINE_RULE")
+@Table(name = "ENTITY_MATCHING_RULE")
 public class MatchingRule {
 	
 	@Id

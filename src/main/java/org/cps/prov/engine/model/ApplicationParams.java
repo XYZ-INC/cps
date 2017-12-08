@@ -1,4 +1,4 @@
-package org.cps.prov.application.model;
+package org.cps.prov.engine.model;
 
 import javax.faces.bean.ManagedBean;
 import javax.persistence.CascadeType;
@@ -13,30 +13,37 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+ 
 /**
  * Entity bean with JPA annotations Hibernate provides JPA implementation
  *
  */
 @Entity
-@Table(name = "APP_DEF_PARAMS")
-@ManagedBean(name = "appDefParams")
-public class ApplicationDefParams {
+@Table(name = "APP_PARAMS")
+@ManagedBean(name = "applicationConfigParams")
+public class ApplicationParams {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(nullable=false)
 	private String name;
 
 	private String description;
 
-	private String type;
+	@Column(nullable=false)
+	private APP_PARAM_TYPE type;
 
-	private String defalutValue;
+	@Column(nullable=false)
+	private String value;
+
+	private boolean  encrypted;
 
 	@ManyToOne
-    @JoinColumn(name="app_def_id")
-	private ApplicationDefinition appDefinition;
+    @JoinColumn(name="app_id")
+	private Application application;
+
 
 	public int getId() {
 		return id;
@@ -54,42 +61,52 @@ public class ApplicationDefParams {
 		this.name = name;
 	}
 
-	public String getType() {
+	public APP_PARAM_TYPE getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(APP_PARAM_TYPE type) {
 		this.type = type;
 	}
 
-	public String getDefalutValue() {
-		return defalutValue;
+	public String getValue() {
+		return value;
 	}
 
-	public void setDefalutValue(String defalutValue) {
-		this.defalutValue = defalutValue;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
+	
 	public String getDescription() {
 		return description;
+	}
+
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	
 
-	public ApplicationDefinition getAppDefinition() {
-		return appDefinition;
+	public boolean isEncrypted() {
+		return encrypted;
 	}
 
-	public void setAppDefinition(ApplicationDefinition appDefinition) {
-		this.appDefinition = appDefinition;
+	public void setEncrypted(boolean encrypted) {
+		this.encrypted = encrypted;
 	}
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", name=" + name + ", defalutValue=" + defalutValue
-				+ ", type=" + type + ", description=" + description;
+		return "id=" + id + ", name=" + name+ ", value=" + value+ ", type=" + type+ ", description=" + description ;
 	}
 
 }

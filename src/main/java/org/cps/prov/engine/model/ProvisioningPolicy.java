@@ -1,7 +1,6 @@
-package org.cps.identity.model;
+package org.cps.prov.engine.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -14,44 +13,45 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.cps.prov.engine.model.AppPolicyGroup;
-
+import org.cps.identity.model.Group;
 
 @Entity
-@Table(name="GRP")
-@ManagedBean(name="group")
-public class Group {
-	
-	@Id
-    @Column(name="id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+@Table(name = "PROV_POLICY")
+@ManagedBean(name = "provPolicy")
+public class ProvisioningPolicy {
 
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	@Column(unique=true,nullable=false)
 	private String name;
-	
+
 	private String description;
 	
     private String createdBy;
     private String updatedBy;
     private Date createdDate;
     private Date updatedDate;
-    
-    @OneToMany(mappedBy = "id.group",
+
+	
+    @OneToMany(mappedBy = "id.policy",
             cascade = CascadeType.ALL)
-    private List<AppPolicyGroup> appPolicyGroups = new ArrayList<AppPolicyGroup>();
+    private Set<AppPolicyGroup> appPolicyGroups = new HashSet<AppPolicyGroup>();
+	
+	@ManyToMany
+    @JoinTable(name="PROV_APP", 
+    joinColumns=@JoinColumn(name="PROV_ID"),
+    inverseJoinColumns=@JoinColumn(name="APP_ID"))
+	private List<Application> applications;
 
-
-    @ManyToMany(mappedBy="groups")
-    private Collection<User> users;
-    
-    public Group(){
-    	users = new ArrayList<User>();
-    }
-    
 	public int getId() {
 		return id;
 	}
@@ -76,17 +76,41 @@ public class Group {
 		this.description = description;
 	}
 
-	public Collection<User> getUsers() {
-		return users;
+	
+    public Set<AppPolicyGroup> getAppPolicyGroups() {
+        return appPolicyGroups;
+    }
+ 
+    public void setAppPolicyGroups(Set<AppPolicyGroup> appPolicyGroups) {
+        this.appPolicyGroups = appPolicyGroups;
+    }
+     
+    public void addAppPolicyGroup(AppPolicyGroup appPolicyGroup) {
+        this.appPolicyGroups.add(appPolicyGroup);
+    }  
+    
+//	public List<Group> getAllowedGroup() {
+//		return allowedGroup;
+//	}
+//
+//	public void setAllowedGroup(List<Group> allowedGroup) {
+//		this.allowedGroup = allowedGroup;
+//	}
+//
+//	public List<Group> getDeniedGroup() {
+//		return deniedGroup;
+//	}
+//
+//	public void setDeniedGroup(List<Group> deniedGroup) {
+//		this.deniedGroup = deniedGroup;
+//	}
+
+	public List<Application> getApplications() {
+		return applications;
 	}
 
-	public void addUsersToGroup(User user) {
-        if (!getUsers().contains(user)) {
-            getUsers().add(user);
-        }
-        if (!user.getGroups().contains(this)) {
-            user.getGroups().add(this);
-        }
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
 	}
 
 	public String getCreatedBy() {
@@ -120,20 +144,7 @@ public class Group {
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
-
-	public List<AppPolicyGroup> getAppPolicyGroups() {
-		return appPolicyGroups;
-	}
-
-	public void setAppPolicyGroups(List<AppPolicyGroup> appPolicyGroups) {
-		this.appPolicyGroups = appPolicyGroups;
-	}
 	
-	public void addAppPolicyGroup(AppPolicyGroup appPolicyGroup){
-		this.appPolicyGroups.add(appPolicyGroup);
-	}
 	
-    
 	
-
 }

@@ -1,5 +1,6 @@
-package org.cps.prov.application.model;
+package org.cps.prov.engine.model;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -27,13 +28,15 @@ public class ApplicationDefinition {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(unique=true,nullable=false)
 	private String name;
 
 	private String description;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="app_def_id")
-	private List<ApplicationDefParams> params;
+    private String createdBy;
+    private String updatedBy;
+    private Date createdDate;
+    private Date updatedDate;
 
 	public int getId() {
 		return id;
@@ -59,12 +62,36 @@ public class ApplicationDefinition {
 		this.description = description;
 	}
 
-	public List<ApplicationDefParams> getParams() {
-		return params;
+	public String getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setParams(List<ApplicationDefParams> params) {
-		this.params = params;
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 
 	@Override
